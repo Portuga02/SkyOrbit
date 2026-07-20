@@ -1,0 +1,179 @@
+.register-page { --background: var(--orb-bg); }
+
+.register-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.page-header {
+  h1 { font-size: 22px; font-weight: 700; color: var(--orb-text); margin: 0 0 4px; }
+  p { font-size: 13.5px; color: var(--orb-text-dim); margin: 0; }
+}
+
+.panel {
+  background: var(--orb-card-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 14px;
+  padding: 20px;
+
+  h2 { font-size: 15px; font-weight: 600; color: var(--orb-text); margin: 0 0 16px; }
+}
+
+.photo-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.photo-upload {
+  width: 84px; height: 84px; border-radius: 50%;
+  background: var(--orb-bg);
+  border: 2px dashed var(--orb-border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+  ion-icon { font-size: 26px; color: var(--orb-text-dim); }
+
+  &.small { width: 56px; height: 56px; flex-shrink: 0; }
+}
+
+.photo-hint { font-size: 11.5px; color: var(--orb-text-dim); }
+
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 560px) {
+  .field-grid { grid-template-columns: 1fr; }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+
+  label {
+    font-size: 11.5px;
+    color: var(--orb-text-dim);
+    text-transform: uppercase;
+    letter-spacing: .03em;
+  }
+
+  ion-input, ion-textarea {
+    --background: var(--orb-bg);
+    --color: var(--orb-text);
+    --placeholder-color: var(--orb-text-dim);
+    --padding-start: 12px;
+    border: 1px solid var(--orb-border);
+    border-radius: 8px;
+  }
+}
+
+.field-grid .field { margin-bottom: 0; }
+
+.radio-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.radio-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--orb-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 100px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--orb-text-dim);
+  cursor: pointer;
+
+  ion-icon { font-size: 16px; }
+
+  &.selected {
+    border-color: var(--orb-purple);
+    color: var(--orb-purple);
+    background: rgba(108, 92, 231, 0.06);
+  }
+}
+
+.conditional-box {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--orb-border);
+}
+
+.dependent-card {
+  background: var(--orb-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.dependent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--orb-text-dim);
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--orb-red);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  ion-icon { font-size: 17px; }
+}
+
+.dependent-body {
+  display: flex;
+  gap: 14px;
+}
+
+.dependent-grid {
+  flex: 1;
+  grid-template-columns: 1fr 1fr;
+}
+
+.btn-add-dependent {
+  --border-color: var(--orb-purple);
+  --color: var(--orb-purple);
+  width: 100%;
+}
+
+.orbit-textarea {
+  padding: 8px 0;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.btn-save {
+  --background: var(--orb-purple);
+  --background-activated: var(--orb-purple-dark);
+  font-weight: 600;
+}

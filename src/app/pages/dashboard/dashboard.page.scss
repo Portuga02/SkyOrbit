@@ -1,0 +1,181 @@
+.dashboard-page { --background: var(--orb-bg); }
+
+.dashboard-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+}
+
+.page-header {
+  margin-bottom: 20px;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--orb-text);
+    margin: 0 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    ion-icon { color: var(--orb-purple); font-size: 18px; }
+  }
+
+  p { font-size: 13.5px; color: var(--orb-text-dim); margin: 0; }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+
+.stat-card {
+  background: var(--orb-card-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.stat-label { font-size: 12.5px; color: var(--orb-text-dim); font-weight: 500; }
+
+.stat-icon {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: rgba(108, 92, 231, 0.1);
+  color: var(--orb-purple);
+  display: flex; align-items: center; justify-content: center;
+
+  ion-icon { font-size: 17px; }
+
+  &.green { background: rgba(34, 197, 94, 0.1); color: var(--orb-green); }
+  &.amber { background: rgba(245, 165, 36, 0.12); color: var(--orb-amber); }
+  &.blue { background: rgba(56, 189, 248, 0.12); color: var(--orb-blue); }
+}
+
+.stat-value { font-size: 26px; font-weight: 700; color: var(--orb-text); }
+
+.stat-foot {
+  font-size: 12px;
+  color: var(--orb-text-dim);
+  margin-top: 4px;
+
+  &.up { color: var(--orb-green); }
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .content-grid { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--orb-card-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+
+  h2 { font-size: 15px; font-weight: 600; color: var(--orb-text); margin: 0; }
+  a { font-size: 12.5px; color: var(--orb-purple); font-weight: 500; cursor: pointer; }
+}
+
+.appt-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--orb-border);
+
+  &:last-child { border-bottom: none; }
+}
+
+.appt-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  color: #14162b; font-weight: 700; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.appt-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.appt-name { font-size: 13.5px; font-weight: 600; color: var(--orb-text); }
+.appt-type { font-size: 11.5px; color: var(--orb-text-dim); }
+
+.appt-time { font-size: 13px; font-weight: 600; color: var(--orb-text); margin-right: 10px; }
+
+.appt-status {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 100px;
+  background: rgba(108, 92, 231, 0.1);
+  color: var(--orb-purple);
+  white-space: nowrap;
+
+  &.progress { background: rgba(34, 197, 94, 0.12); color: var(--orb-green); }
+}
+
+.donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.donut {
+  width: 130px; height: 130px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.donut-hole {
+  width: 90px; height: 90px; border-radius: 50%;
+  background: var(--orb-card-bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+
+.donut-value { font-size: 14px; font-weight: 700; color: var(--orb-text); }
+.donut-label { font-size: 10.5px; color: var(--orb-text-dim); }
+
+.donut-legend { display: flex; flex-direction: column; gap: 10px; }
+
+.legend-row {
+  font-size: 12.5px;
+  color: var(--orb-text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  b { color: var(--orb-text); margin-left: 4px; }
+}
+
+.dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  &.green { background: var(--orb-green); }
+  &.amber { background: var(--orb-amber); }
+  &.red { background: var(--orb-red); }
+}

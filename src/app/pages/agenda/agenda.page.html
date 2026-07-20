@@ -1,0 +1,45 @@
+<app-orbit-shell activeTab="agenda">
+
+  <ion-content class="agenda-page">
+    <div class="agenda-wrap">
+
+      <div class="page-header">
+        <div>
+          <h1>Agenda</h1>
+          <p>7 – 13 de julho de 2025</p>
+        </div>
+        <ion-button class="btn-new" shape="round">
+          <ion-icon name="add-outline" slot="start"></ion-icon>
+          Nova consulta
+        </ion-button>
+      </div>
+
+      <div class="calendar-card">
+        <div class="calendar-header">
+          <div class="hour-col-header"></div>
+          <div class="day-header" *ngFor="let d of days">{{ d }}</div>
+        </div>
+
+        <div class="calendar-body">
+          <div class="hour-col">
+            <div class="hour-cell" *ngFor="let h of hours">{{ h }}:00</div>
+          </div>
+
+          <div class="day-col" *ngFor="let d of days; let dayIndex = index">
+            <div class="hour-cell-bg" *ngFor="let h of hours"></div>
+
+            <div
+              class="event-block"
+              *ngFor="let e of eventsForDay(dayIndex)"
+              [ngStyle]="eventStyle(e)">
+              <span class="event-name">{{ e.patientName }}</span>
+              <span class="event-type" *ngIf="e.type !== 'Bloqueado'">{{ e.type }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+
+</app-orbit-shell>

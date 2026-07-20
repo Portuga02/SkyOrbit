@@ -1,0 +1,44 @@
+<app-orbit-shell activeTab="financeiro">
+
+  <ion-content class="financeiro-page">
+    <div class="fin-wrap">
+
+      <div class="page-header">
+        <h1>Financeiro</h1>
+        <p>Controle de recebimentos e pendências</p>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <span class="summary-label">Recebido</span>
+          <span class="summary-value green">R$ {{ summary.recebido | number:'1.2-2' }}</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-label">Pendente</span>
+          <span class="summary-value amber">R$ {{ summary.pendente | number:'1.2-2' }}</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-label">Cancelado</span>
+          <span class="summary-value red">R$ {{ summary.cancelado | number:'1.2-2' }}</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Transações recentes</h2>
+        <div class="tx-row" *ngFor="let t of transactions">
+          <span class="tx-name">{{ t.patientName }}</span>
+          <span class="tx-date">{{ t.date }}</span>
+          <span class="tx-amount">R$ {{ t.amount | number:'1.2-2' }}</span>
+          <span class="tx-status"
+            [class.paid]="t.status === 'Pago'"
+            [class.pending]="t.status === 'Pendente'"
+            [class.cancelled]="t.status === 'Cancelado'">
+            {{ t.status }}
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+
+</app-orbit-shell>

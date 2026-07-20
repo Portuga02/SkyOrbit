@@ -1,0 +1,148 @@
+<app-orbit-shell activeTab="patients">
+
+  <ion-content class="register-page">
+    <div class="register-wrap">
+
+      <div class="page-header">
+        <div>
+          <h1>Novo paciente</h1>
+          <p>Preencha os dados abaixo para cadastrar</p>
+        </div>
+      </div>
+
+      <!-- FOTO + DADOS BÁSICOS -->
+      <div class="panel">
+        <h2>Dados pessoais</h2>
+
+        <div class="photo-row">
+          <label class="photo-upload" for="patient-photo">
+            <img *ngIf="photoPreview" [src]="photoPreview" alt="Foto do paciente" />
+            <ion-icon *ngIf="!photoPreview" name="camera-outline"></ion-icon>
+          </label>
+          <input id="patient-photo" type="file" accept="image/*" hidden (change)="onPhotoSelected($event, 'patient')" />
+          <span class="photo-hint">Adicionar foto</span>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label>Nome completo *</label>
+            <ion-input [(ngModel)]="name" placeholder="Nome do paciente"></ion-input>
+          </div>
+          <div class="field">
+            <label>Data de nascimento *</label>
+            <ion-input type="date" [(ngModel)]="birthDate"></ion-input>
+          </div>
+          <div class="field">
+            <label>CPF</label>
+            <ion-input [(ngModel)]="cpf" placeholder="000.000.000-00"></ion-input>
+          </div>
+          <div class="field">
+            <label>Telefone</label>
+            <ion-input [(ngModel)]="phone" placeholder="(81) 99999-0000"></ion-input>
+          </div>
+          <div class="field">
+            <label>E-mail</label>
+            <ion-input type="email" [(ngModel)]="email" placeholder="paciente@email.com"></ion-input>
+          </div>
+          <div class="field">
+            <label>Convênio</label>
+            <ion-input [(ngModel)]="insurance" placeholder="Não possui"></ion-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDICAÇÃO — CONDICIONAL -->
+      <div class="panel">
+        <h2>Uso de medicação</h2>
+        <div class="radio-row">
+          <button class="radio-chip" [class.selected]="takesMedication === 'sim'" (click)="onMedicationChange('sim')">
+            <ion-icon [name]="takesMedication === 'sim' ? 'radio-button-on' : 'radio-button-off'"></ion-icon> Sim
+          </button>
+          <button class="radio-chip" [class.selected]="takesMedication === 'nao'" (click)="onMedicationChange('nao')">
+            <ion-icon [name]="takesMedication === 'nao' ? 'radio-button-on' : 'radio-button-off'"></ion-icon> Não
+          </button>
+        </div>
+
+        <div class="conditional-box" *ngIf="takesMedication === 'sim'">
+          <label>Quais medicamentos? (nome, dosagem, frequência)</label>
+          <ion-textarea [(ngModel)]="medicationDetails" placeholder="Ex: Sertralina 50mg, 1x ao dia pela manhã" rows="3" class="orbit-textarea"></ion-textarea>
+        </div>
+      </div>
+
+      <!-- DEPENDENTES — CONDICIONAL COM LISTA DINÂMICA -->
+      <div class="panel">
+        <h2>Possui dependentes?</h2>
+        <div class="radio-row">
+          <button class="radio-chip" [class.selected]="hasDependents === 'sim'" (click)="onDependentsChange('sim')">
+            <ion-icon [name]="hasDependents === 'sim' ? 'radio-button-on' : 'radio-button-off'"></ion-icon> Sim
+          </button>
+          <button class="radio-chip" [class.selected]="hasDependents === 'nao'" (click)="onDependentsChange('nao')">
+            <ion-icon [name]="hasDependents === 'nao' ? 'radio-button-on' : 'radio-button-off'"></ion-icon> Não
+          </button>
+        </div>
+
+        <div class="conditional-box" *ngIf="hasDependents === 'sim'">
+          <div class="dependent-card" *ngFor="let dep of dependents; let i = index">
+            <div class="dependent-header">
+              <span>Dependente {{ i + 1 }}</span>
+              <button class="remove-btn" aria-label="Remover dependente" (click)="removeDependent(dep.id)">
+                <ion-icon name="trash-outline"></ion-icon>
+              </button>
+            </div>
+
+            <div class="dependent-body">
+              <label class="photo-upload small" [for]="'dep-photo-' + dep.id">
+                <img *ngIf="dep.photoPreview" [src]="dep.photoPreview" alt="Foto do dependente" />
+                <ion-icon *ngIf="!dep.photoPreview" name="camera-outline"></ion-icon>
+              </label>
+              <input [id]="'dep-photo-' + dep.id" type="file" accept="image/*" hidden (change)="onPhotoSelected($event, dep)" />
+
+              <div class="field-grid dependent-grid">
+                <div class="field">
+                  <label>Nome</label>
+                  <ion-input [(ngModel)]="dep.name" placeholder="Nome do dependente"></ion-input>
+                </div>
+                <div class="field">
+                  <label>CPF</label>
+                  <ion-input [(ngModel)]="dep.cpf" placeholder="000.000.000-00"></ion-input>
+                </div>
+                <div class="field">
+                  <label>Idade</label>
+                  <ion-input type="number" [(ngModel)]="dep.age" placeholder="0"></ion-input>
+                </div>
+                <div class="field">
+                  <label>Parentesco</label>
+                  <ion-input [(ngModel)]="dep.relationship" placeholder="Filho(a), cônjuge..."></ion-input>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ion-button fill="outline" class="btn-add-dependent" (click)="addDependent()">
+            <ion-icon name="add-outline" slot="start"></ion-icon> Adicionar dependente
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- ANAMNESE -->
+      <div class="panel">
+        <h2>Anamnese</h2>
+        <div class="field">
+          <label>Queixa principal</label>
+          <ion-textarea [(ngModel)]="mainComplaint" placeholder="Motivo da procura por atendimento" rows="2" class="orbit-textarea"></ion-textarea>
+        </div>
+        <div class="field">
+          <label>Histórico</label>
+          <ion-textarea [(ngModel)]="history" placeholder="Histórico relevante (saúde, familiar, social)" rows="4" class="orbit-textarea"></ion-textarea>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <ion-button fill="outline" (click)="cancel()">Cancelar</ion-button>
+        <ion-button class="btn-save" (click)="save()">Salvar paciente</ion-button>
+      </div>
+
+    </div>
+  </ion-content>
+
+</app-orbit-shell>

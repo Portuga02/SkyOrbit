@@ -1,0 +1,79 @@
+<app-orbit-shell activeTab="teleatendimento">
+
+  <ion-content class="tele-page">
+    <div class="tele-wrap">
+
+      <div class="tele-topbar">
+        <span class="tele-title">
+          <ion-icon name="ellipse" class="connected-dot"></ion-icon>
+          Teleatendimento · Conectado
+        </span>
+        <span class="tele-timer">{{ formattedTime }}</span>
+      </div>
+
+      <div class="tele-grid">
+
+        <div class="video-area">
+          <div class="remote-video">
+            <div class="avatar-placeholder">{{ patientName.charAt(0) }}</div>
+          </div>
+          <div class="local-video" [class.cam-off]="!camOn">
+            <ion-icon *ngIf="!camOn" name="videocam-off-outline"></ion-icon>
+          </div>
+
+          <div class="tele-controls">
+            <button class="ctrl-btn" [class.off]="!micOn" [attr.aria-label]="micOn ? 'Desligar microfone' : 'Ligar microfone'" (click)="toggleMic()">
+              <ion-icon [name]="micOn ? 'mic-outline' : 'mic-off-outline'"></ion-icon>
+            </button>
+            <button class="ctrl-btn" [class.off]="!camOn" [attr.aria-label]="camOn ? 'Desligar câmera' : 'Ligar câmera'" (click)="toggleCam()">
+              <ion-icon [name]="camOn ? 'videocam-outline' : 'videocam-off-outline'"></ion-icon>
+            </button>
+            <button class="ctrl-btn" aria-label="Compartilhar tela">
+              <ion-icon name="desktop-outline"></ion-icon>
+            </button>
+            <button class="ctrl-btn" aria-label="Anexos">
+              <ion-icon name="attach-outline"></ion-icon>
+            </button>
+            <button class="ctrl-btn" aria-label="Mais opções">
+              <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+            </button>
+            <button class="ctrl-btn hangup" aria-label="Encerrar sessão">
+              <ion-icon name="call-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="chat-panel">
+          <div class="chat-header">
+            <ion-icon name="chatbubble-outline"></ion-icon> Chat
+          </div>
+
+          <div class="chat-messages">
+            <div class="chat-meta">Início da sessão · 09:00</div>
+            <div *ngFor="let m of messages" class="msg-row" [class.mine]="m.fromMe">
+              <div class="msg-bubble" [class.mine]="m.fromMe">
+                {{ m.text }}
+                <span class="msg-time">{{ m.time }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-composer">
+            <ion-input
+              [(ngModel)]="draft"
+              placeholder="Digite uma mensagem..."
+              class="composer-input"
+              (keyup.enter)="send()">
+            </ion-input>
+            <ion-button fill="clear" class="send-icon" aria-label="Enviar mensagem" (click)="send()">
+              <ion-icon name="send"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </ion-content>
+
+</app-orbit-shell>

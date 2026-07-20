@@ -1,0 +1,60 @@
+<app-orbit-shell activeTab="agenda">
+
+  <ion-content class="new-appt-page">
+    <div class="new-appt-wrap">
+
+      <div class="page-header">
+        <h1>Nova consulta</h1>
+        <p>Agende um horário para um paciente</p>
+      </div>
+
+      <div class="panel">
+        <div class="field">
+          <label>Paciente *</label>
+          <ion-select [(ngModel)]="selectedPatient" placeholder="Selecione o paciente" interface="popover" class="orbit-select">
+            <ion-select-option *ngFor="let p of patients" [value]="p">{{ p }}</ion-select-option>
+          </ion-select>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label>Data *</label>
+            <ion-input type="date" [(ngModel)]="date"></ion-input>
+          </div>
+          <div class="field">
+            <label>Horário *</label>
+            <ion-input type="time" [(ngModel)]="time"></ion-input>
+          </div>
+          <div class="field">
+            <label>Duração (min)</label>
+            <ion-input type="number" [(ngModel)]="duration"></ion-input>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Tipo de consulta</label>
+          <div class="radio-row">
+            <button class="radio-chip" [class.selected]="type === 'Online'" (click)="type = 'Online'">
+              <ion-icon [name]="type === 'Online' ? 'radio-button-on' : 'radio-button-off'"></ion-icon> Online
+            </button>
+            <button class="radio-chip" [class.selected]="type === 'Presencial'" (click)="type = 'Presencial'">
+              <ion-icon [name]="type === 'Presencial' ? 'radio-button-on' : 'radio-button-off'"></ion-icon> Presencial
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Observações</label>
+          <ion-textarea [(ngModel)]="notes" placeholder="Observações sobre a consulta (opcional)" rows="3" class="orbit-textarea"></ion-textarea>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <ion-button fill="outline" (click)="cancel()">Cancelar</ion-button>
+        <ion-button class="btn-save" (click)="save()">Agendar consulta</ion-button>
+      </div>
+
+    </div>
+  </ion-content>
+
+</app-orbit-shell>
