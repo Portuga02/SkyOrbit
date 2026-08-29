@@ -1,13 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, Circle, Dot, Trash2, Plus } from 'lucide-react';
+import { Camera, Trash2, Plus, ArrowLeft, User, Pill, Users, ClipboardList } from 'lucide-react';
 import Shell from '../components/Shell.jsx';
-import './shared.css';
 import './PatientRegister.css';
-
-function RadioIcon({ selected }) {
-  return selected ? <Dot size={20} strokeWidth={5} /> : <Circle size={16} />;
-}
 
 export default function PatientRegister() {
   const navigate = useNavigate();
@@ -75,13 +70,13 @@ export default function PatientRegister() {
     if (value === 'sim' && dependents.length === 0) addDependent();
   }
 
-  // TODO: enviar pro backend real (POST /patients), incluindo upload de fotos
-  function save() {
-    if (!name || !birthDate) return;
+  function cancel() {
     navigate('/patients');
   }
 
-  function cancel() {
+  function save(e) {
+    e.preventDefault();
+    if (!name || !birthDate) return;
     navigate('/patients');
   }
 
@@ -89,225 +84,301 @@ export default function PatientRegister() {
     <Shell activeTab="patients">
       <div className="register-page">
         <div className="register-wrap">
+          <button type="button" className="btn-back" onClick={cancel}>
+            <ArrowLeft size={16} />
+            <span>Voltar para Pacientes</span>
+          </button>
+
           <div className="page-header">
             <div>
-              <h1>Novo paciente</h1>
-              <p>Preencha os dados abaixo para cadastrar</p>
+              <h1>Novo Paciente</h1>
+              <p>Cadastre os dados pessoais, clínicos e anamnese inicial.</p>
             </div>
           </div>
 
-          {/* FOTO + DADOS BÁSICOS */}
-          <div className="panel">
-            <h2>Dados pessoais</h2>
+          <form className="register-form" onSubmit={save}>
+            
+            {/* DADOS PESSOAIS */}
+            <div className="panel form-panel">
+              <div className="panel-title-with-icon">
+                <User size={18} className="panel-icon" />
+                <h2>Dados Pessoais</h2>
+              </div>
 
-            <div className="photo-row">
-              <label className="photo-upload" htmlFor="patient-photo">
-                {photoPreview ? <img src={photoPreview} alt="Foto do paciente" /> : <Camera size={26} />}
-              </label>
-              <input
-                id="patient-photo"
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={onPatientPhotoSelected}
-              />
-              <span className="photo-hint">Adicionar foto</span>
-            </div>
-
-            <div className="field-grid">
-              <div className="field">
-                <label>Nome completo *</label>
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome do paciente" />
-              </div>
-              <div className="field">
-                <label>Data de nascimento *</label>
-                <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} />
-              </div>
-              <div className="field">
-                <label>CPF</label>
-                <input value={cpf} onChange={(e) => setCpf(e.target.value)} placeholder="000.000.000-00" />
-              </div>
-              <div className="field">
-                <label>Telefone</label>
-                <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(81) 99999-0000" />
-              </div>
-              <div className="field">
-                <label>E-mail</label>
+              <div className="photo-row">
+                <label className="photo-upload" htmlFor="patient-photo">
+                  {photoPreview ? <img src={photoPreview} alt="Foto do paciente" /> : <Camera size={26} />}
+                </label>
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="paciente@email.com"
+                  id="patient-photo"
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={onPatientPhotoSelected}
                 />
+                <span className="photo-hint">Adicionar foto do paciente</span>
               </div>
-              <div className="field">
-                <label>Convênio</label>
-                <input
-                  value={insurance}
-                  onChange={(e) => setInsurance(e.target.value)}
-                  placeholder="Não possui"
-                />
+
+              <div className="field-grid two-cols">
+                <div className="form-group full-width">
+                  <label>Nome completo *</label>
+                  <input
+                    className="form-control"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Nome completo do paciente"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Data de nascimento *</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={birthDate}
+                    onChange={(e) => setBirthDate(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>CPF</label>
+                  <input
+                    className="form-control"
+                    value={cpf}
+                    onChange={(e) => setCpf(e.target.value)}
+                    placeholder="000.000.000-00"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Telefone / WhatsApp</label>
+                  <input
+                    className="form-control"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="(81) 99999-0000"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>E-mail</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="paciente@email.com"
+                  />
+                </div>
+
+                <div className="form-group full-width">
+                  <label>Convênio / Plano de Saúde</label>
+                  <input
+                    className="form-control"
+                    value={insurance}
+                    onChange={(e) => setInsurance(e.target.value)}
+                    placeholder="Particular ou nome do convênio"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* MEDICAÇÃO — CONDICIONAL */}
-          <div className="panel">
-            <h2>Uso de medicação</h2>
-            <div className="radio-row">
-              <button
-                className={`radio-chip ${takesMedication === 'sim' ? 'selected' : ''}`}
-                onClick={() => onMedicationChange('sim')}
-              >
-                <RadioIcon selected={takesMedication === 'sim'} /> Sim
-              </button>
-              <button
-                className={`radio-chip ${takesMedication === 'nao' ? 'selected' : ''}`}
-                onClick={() => onMedicationChange('nao')}
-              >
-                <RadioIcon selected={takesMedication === 'nao'} /> Não
-              </button>
-            </div>
-
-            {takesMedication === 'sim' && (
-              <div className="conditional-box">
-                <label>Quais medicamentos? (nome, dosagem, frequência)</label>
-                <textarea
-                  value={medicationDetails}
-                  onChange={(e) => setMedicationDetails(e.target.value)}
-                  placeholder="Ex: Sertralina 50mg, 1x ao dia pela manhã"
-                  rows={3}
-                />
+            {/* USO DE MEDICAÇÃO */}
+            <div className="panel form-panel">
+              <div className="panel-title-with-icon">
+                <Pill size={18} className="panel-icon" />
+                <h2>Uso de Medicação</h2>
               </div>
-            )}
-          </div>
+              <p className="panel-sub">O paciente faz uso contínuo de medicação psiquiátrica ou controlada?</p>
 
-          {/* DEPENDENTES — CONDICIONAL COM LISTA DINÂMICA */}
-          <div className="panel">
-            <h2>Possui dependentes?</h2>
-            <div className="radio-row">
-              <button
-                className={`radio-chip ${hasDependents === 'sim' ? 'selected' : ''}`}
-                onClick={() => onDependentsChange('sim')}
-              >
-                <RadioIcon selected={hasDependents === 'sim'} /> Sim
-              </button>
-              <button
-                className={`radio-chip ${hasDependents === 'nao' ? 'selected' : ''}`}
-                onClick={() => onDependentsChange('nao')}
-              >
-                <RadioIcon selected={hasDependents === 'nao'} /> Não
-              </button>
+              <div className="radio-row">
+                <button
+                  type="button"
+                  className={`radio-chip ${takesMedication === 'sim' ? 'selected' : ''}`}
+                  onClick={() => onMedicationChange('sim')}
+                >
+                  Sim
+                </button>
+                <button
+                  type="button"
+                  className={`radio-chip ${takesMedication === 'nao' ? 'selected' : ''}`}
+                  onClick={() => onMedicationChange('nao')}
+                >
+                  Não
+                </button>
+              </div>
+
+              {takesMedication === 'sim' && (
+                <div className="conditional-box">
+                  <label>Quais medicamentos? (nome, dosagem e posologia)</label>
+                  <textarea
+                    className="form-control"
+                    value={medicationDetails}
+                    onChange={(e) => setMedicationDetails(e.target.value)}
+                    placeholder="Ex: Escitalopram 10mg - 1 comprimido pela manhã..."
+                    rows={3}
+                  />
+                </div>
+              )}
             </div>
 
-            {hasDependents === 'sim' && (
-              <div className="conditional-box">
-                {dependents.map((dep, i) => (
-                  <div className="dependent-card" key={dep.id}>
-                    <div className="dependent-header">
-                      <span>Dependente {i + 1}</span>
-                      <button
-                        className="remove-btn"
-                        aria-label="Remover dependente"
-                        onClick={() => removeDependent(dep.id)}
-                      >
-                        <Trash2 size={17} />
-                      </button>
-                    </div>
+            {/* DEPENDENTES */}
+            <div className="panel form-panel">
+              <div className="panel-title-with-icon">
+                <Users size={18} className="panel-icon" />
+                <h2>Possui Dependentes?</h2>
+              </div>
+              <p className="panel-sub">Cadastre filhos ou familiares acompanhados neste prontuário.</p>
 
-                    <div className="dependent-body">
-                      <label className="photo-upload small" htmlFor={`dep-photo-${dep.id}`}>
-                        {dep.photoPreview ? (
-                          <img src={dep.photoPreview} alt="Foto do dependente" />
-                        ) : (
-                          <Camera size={22} />
-                        )}
-                      </label>
-                      <input
-                        id={`dep-photo-${dep.id}`}
-                        type="file"
-                        accept="image/*"
-                        hidden
-                        onChange={(e) => onDependentPhotoSelected(e, dep.id)}
-                      />
+              <div className="radio-row">
+                <button
+                  type="button"
+                  className={`radio-chip ${hasDependents === 'sim' ? 'selected' : ''}`}
+                  onClick={() => onDependentsChange('sim')}
+                >
+                  Sim
+                </button>
+                <button
+                  type="button"
+                  className={`radio-chip ${hasDependents === 'nao' ? 'selected' : ''}`}
+                  onClick={() => onDependentsChange('nao')}
+                >
+                  Não
+                </button>
+              </div>
 
-                      <div className="field-grid dependent-grid">
-                        <div className="field">
-                          <label>Nome</label>
+              {hasDependents === 'sim' && (
+                <div className="conditional-box">
+                  {dependents.map((dep, i) => (
+                    <div className="dependent-card" key={dep.id}>
+                      <div className="dependent-header">
+                        <span>Dependente {i + 1}</span>
+                        <button
+                          type="button"
+                          className="remove-btn"
+                          aria-label="Remover dependente"
+                          onClick={() => removeDependent(dep.id)}
+                        >
+                          <Trash2 size={16} />
+                          <span>Remover</span>
+                        </button>
+                      </div>
+
+                      <div className="dependent-body">
+                        <div className="dep-photo-col">
+                          <label className="photo-upload small" htmlFor={`dep-photo-${dep.id}`}>
+                            {dep.photoPreview ? (
+                              <img src={dep.photoPreview} alt="Foto do dependente" />
+                            ) : (
+                              <Camera size={18} />
+                            )}
+                          </label>
                           <input
-                            value={dep.name}
-                            onChange={(e) => updateDependent(dep.id, 'name', e.target.value)}
-                            placeholder="Nome do dependente"
+                            id={`dep-photo-${dep.id}`}
+                            type="file"
+                            accept="image/*"
+                            hidden
+                            onChange={(e) => onDependentPhotoSelected(e, dep.id)}
                           />
                         </div>
-                        <div className="field">
-                          <label>CPF</label>
-                          <input
-                            value={dep.cpf}
-                            onChange={(e) => updateDependent(dep.id, 'cpf', e.target.value)}
-                            placeholder="000.000.000-00"
-                          />
-                        </div>
-                        <div className="field">
-                          <label>Idade</label>
-                          <input
-                            type="number"
-                            value={dep.age}
-                            onChange={(e) => updateDependent(dep.id, 'age', e.target.value)}
-                            placeholder="0"
-                          />
-                        </div>
-                        <div className="field">
-                          <label>Parentesco</label>
-                          <input
-                            value={dep.relationship}
-                            onChange={(e) => updateDependent(dep.id, 'relationship', e.target.value)}
-                            placeholder="Filho(a), cônjuge..."
-                          />
+
+                        <div className="dependent-fields-grid">
+                          <div className="form-group full-width">
+                            <label>Nome do dependente</label>
+                            <input
+                              className="form-control"
+                              value={dep.name}
+                              onChange={(e) => updateDependent(dep.id, 'name', e.target.value)}
+                              placeholder="Nome completo"
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>CPF</label>
+                            <input
+                              className="form-control"
+                              value={dep.cpf}
+                              onChange={(e) => updateDependent(dep.id, 'cpf', e.target.value)}
+                              placeholder="000.000.000-00"
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Idade</label>
+                            <input
+                              type="number"
+                              className="form-control"
+                              value={dep.age}
+                              onChange={(e) => updateDependent(dep.id, 'age', e.target.value)}
+                              placeholder="Ex: 8"
+                            />
+                          </div>
+                          <div className="form-group full-width">
+                            <label>Grau de parentesco</label>
+                            <input
+                              className="form-control"
+                              value={dep.relationship}
+                              onChange={(e) => updateDependent(dep.id, 'relationship', e.target.value)}
+                              placeholder="Filho(a), Cônjuge, Irmão(ã)..."
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
 
-                <button className="ion-btn outline purple block btn-add-dependent" onClick={addDependent}>
-                  <Plus size={16} /> Adicionar dependente
-                </button>
+                  <button
+                    type="button"
+                    className="ion-btn outline purple block round btn-add-dependent"
+                    onClick={addDependent}
+                  >
+                    <Plus size={16} /> Adicionar outro dependente
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* ANAMNESE */}
+            <div className="panel form-panel">
+              <div className="panel-title-with-icon">
+                <ClipboardList size={18} className="panel-icon" />
+                <h2>Anamnese Inicial</h2>
               </div>
-            )}
-          </div>
 
-          {/* ANAMNESE */}
-          <div className="panel">
-            <h2>Anamnese</h2>
-            <div className="field">
-              <label>Queixa principal</label>
-              <textarea
-                value={mainComplaint}
-                onChange={(e) => setMainComplaint(e.target.value)}
-                placeholder="Motivo da procura por atendimento"
-                rows={2}
-              />
-            </div>
-            <div className="field">
-              <label>Histórico</label>
-              <textarea
-                value={history}
-                onChange={(e) => setHistory(e.target.value)}
-                placeholder="Histórico relevante (saúde, familiar, social)"
-                rows={4}
-              />
-            </div>
-          </div>
+              <div className="form-group">
+                <label>Queixa principal</label>
+                <textarea
+                  className="form-control"
+                  value={mainComplaint}
+                  onChange={(e) => setMainComplaint(e.target.value)}
+                  placeholder="Motivo principal da procura pelo atendimento psicológico..."
+                  rows={2}
+                />
+              </div>
 
-          <div className="actions-row">
-            <button className="ion-btn outline" onClick={cancel}>
-              Cancelar
-            </button>
-            <button className="ion-btn btn-save" onClick={save}>
-              Salvar paciente
-            </button>
-          </div>
+              <div className="form-group">
+                <label>Histórico relevante</label>
+                <textarea
+                  className="form-control"
+                  value={history}
+                  onChange={(e) => setHistory(e.target.value)}
+                  placeholder="Histórico clínico, dinâmicas familiares, tratamentos anteriores e contexto social..."
+                  rows={4}
+                />
+              </div>
+            </div>
+
+            {/* AÇÕES FINAIS */}
+            <div className="actions-row">
+              <button type="button" className="ion-btn outline round btn-cancel" onClick={cancel}>
+                Cancelar
+              </button>
+              <button type="submit" className="ion-btn round btn-save">
+                Salvar Paciente
+              </button>
+            </div>
+
+          </form>
         </div>
       </div>
     </Shell>

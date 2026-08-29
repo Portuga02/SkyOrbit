@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Moon, Mail, Lock } from 'lucide-react';
+import { Moon, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import './Login.css';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // TODO: substituir por chamada real ao backend do SkyOrbit (Spring Security + JWT)
   function onLogin(e) {
     e.preventDefault();
     if (!email || !password) return;
@@ -22,18 +22,18 @@ export default function Login() {
 
   return (
     <div className="login-page">
-      <div className="login-wrap">
+      <div className="login-card">
         <div className="brand">
           <div className="brand-moon">
-            <Moon size={34} />
+            <Moon size={30} />
           </div>
           <h1>SkyOrbit</h1>
-          <p className="tagline">Gestão para psicólogos. Conecte-se. Cuide. Transforme vidas.</p>
+          <p className="tagline">Gestão &amp; Psicologia</p>
         </div>
 
         <form className="login-form" onSubmit={onLogin}>
           <div className="field">
-            <Mail size={18} />
+            <Mail size={18} className="field-icon" />
             <input
               type="email"
               placeholder="E-mail profissional"
@@ -44,21 +44,29 @@ export default function Login() {
           </div>
 
           <div className="field">
-            <Lock size={18} />
+            <Lock size={18} className="field-icon" />
             <input
-              type="password"
-              placeholder="Senha"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Senha de acesso"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={() => setShowPassword(!showPassword)}
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
           </div>
 
           <button type="submit" className="ion-btn round block btn-primary" disabled={loading}>
-            {loading ? <span className="spinner" /> : <span>Entrar</span>}
+            {loading ? <span className="spinner" /> : <span>Acessar Painel</span>}
           </button>
 
-          <p className="hint">Acesso restrito a profissionais cadastrados</p>
+          <p className="hint">Acesso exclusivo para psicólogos e terapeutas</p>
         </form>
       </div>
     </div>

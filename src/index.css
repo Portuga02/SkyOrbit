@@ -123,3 +123,21 @@ a {
 ::selection {
   background: rgba(108, 92, 231, 0.25);
 }
+/* =========================================
+   ESTRUTURA DE LAYOUT PRINCIPAL (O FIX)
+   ========================================= */
+
+.app-main-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr; /* 260px para o Sidebar, 1fr (o resto) para o conteúdo */
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* Impede a tela inteira de rolar */
+}
+
+.app-content-area {
+  background-color: var(--orb-bg);
+  height: 100vh;
+  overflow-y: auto; /* Permite rolagem APENAS no conteúdo, o sidebar fica fixo */
+  position: relative;
+}

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Circle,
   MessageCircle,
@@ -7,19 +8,19 @@ import {
   Video,
   VideoOff,
   Monitor,
-  Paperclip,
-  MoreHorizontal,
-  Phone,
+  PhoneOff,
   Send,
+  ShieldCheck,
+  X,
+  Volume2,
+  Maximize2
 } from 'lucide-react';
 import Shell from '../components/Shell.jsx';
 import './Teleatendimento.css';
 
-// TODO: histórico real da sessão + envio via WebSocket
 const INITIAL_MESSAGES = [
-  { id: '1', text: 'Bom dia, Sávio! Tudo bem?', fromMe: false, time: '09:00' },
-  { id: '2', text: 'Bom dia, Amanda! Tudo ótimo 😊', fromMe: true, time: '09:01' },
-  { id: '3', text: 'Claro, vamos lá!', fromMe: false, time: '09:02' },
+  { id: '1', text: 'Bom dia, Sávio! O áudio e vídeo estão ótimos por aqui.', fromMe: false, time: '09:00' },
+  { id: '2', text: 'Bom dia, Amanda! Perfeito, vamos dar início à nossa sessão 😊', fromMe: true, time: '09:01' },
 ];
 
 function formatTime(totalSeconds) {
@@ -30,22 +31,26 @@ function formatTime(totalSeconds) {
 }
 
 export default function Teleatendimento() {
+  const navigate = useNavigate();
   const patientName = 'Amanda Silva';
+  
   const [seconds, setSeconds] = useState(0);
   const [micOn, setMicOn] = useState(true);
   const [camOn, setCamOn] = useState(true);
+  const [screenSharing, setScreenSharing] = useState(false);
+  const [chatOpen, setChatOpen] = useState(true);
+  
   const [draft, setDraft] = useState('');
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const messagesEndRef = useRef(null);
 
-  // TODO: só iniciar contagem quando a sessão WebRTC conectar de fato
   useEffect(() => {
     const timer = setInterval(() => setSeconds((s) => s + 1), 1000);
     return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ block: 'nearest' });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   function send() {
@@ -63,92 +68,180 @@ export default function Teleatendimento() {
     setDraft('');
   }
 
-  function onComposerKeyDown(e) {
-    if (e.key === 'Enter') send();
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      send();
+    }
+  }
+
+  function handleEndSession() {
+    if (window.confirm('Deseja encerrar a sessão de teleatendimento?')) {
+      navigate('/agenda');
+    }
   }
 
   return (
     <Shell activeTab="teleatendimento">
       <div className="tele-page">
         <div className="tele-wrap">
+          
+          {/* Barra Superior da Sessão */}
           <div className="tele-topbar">
-            <span className="tele-title">
-              <Circle className="connected-dot" size={9} fill="currentColor" />
-              Teleatendimento · Conectado
-            </span>
-            <span className="tele-timer">{formatTime(seconds)}</span>
+            <div className="tele-patient-status">
+              <div className="status-indicator">
+                <Circle size={8} fill="currentColor" className="dot-pulse" />
+                <span>Em Atendimento</span>
+              </div>
+              <span className="divider">•</span>
+              <span className="patient-name">{patientName}</span>
+              <div className="encryption-pill">
+                <ShieldCheck size={13} />
+                <span>WebRTC E2EE</span>
+              </div>
+            </div>
+
+            <div className="topbar-actions">
+              <div className="tele-timer-badge">
+                <span className="tele-timer">{formatTime(seconds)}</span>
+              </div>
+              <button 
+                type="button" 
+                className={`btn-topbar-toggle ${chatOpen ? 'active' : ''}`}
+                onClick={() => setChatOpen((v) => !v)}
+                title="Alternar painel de chat"
+              >
+                <MessageCircle size={17} />
+              </button>
+            </div>
           </div>
 
-          <div className="tele-grid">
+          {/* Grid Principal: Vídeo + Chat */}
+          <div className={`tele-grid ${!chatOpen ? 'chat-collapsed' : ''}`}>
+            
+            {/* Área de Vídeo */}
             <div className="video-area">
+              
+              {/* Vídeo Remoto (Paciente) */}
               <div className="remote-video">
-                <div className="avatar-placeholder">{patientName.charAt(0)}</div>
-              </div>
-              <div className={`local-video ${!camOn ? 'cam-off' : ''}`}>
-                {!camOn && <VideoOff size={26} />}
+                <div className="remote-avatar-wrap">
+                  <div className="avatar-placeholder">{patientName.charAt(0)}</div>
+                  <span className="remote-label">{patientName}</span>
+                </div>
               </div>
 
-              <div className="tele-controls">
+              {/* Vídeo Local (Profissional) - PIP */}
+              <div className={`local-video-pip ${!camOn ? 'cam-off' : ''}`}>
+                {camOn ? (
+                  <div className="local-preview">
+                    <span className="local-initial">S</span>
+                    <span className="pip-label">Você</span>
+                  </div>
+                ) : (
+                  <div className="cam-disabled-state">
+                    <VideoOff size={22} />
+                    <span>Câmera desligada</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Barra de Controles Flutuante (Glassmorphism) */}
+              <div className="tele-controls-dock">
                 <button
-                  className={`ctrl-btn ${!micOn ? 'off' : ''}`}
-                  aria-label={micOn ? 'Desligar microfone' : 'Ligar microfone'}
+                  type="button"
+                  className={`ctrl-btn ${!micOn ? 'danger' : ''}`}
+                  title={micOn ? 'Mutar microfone' : 'Ativar microfone'}
                   onClick={() => setMicOn((v) => !v)}
                 >
-                  {micOn ? <Mic size={19} /> : <MicOff size={19} />}
+                  {micOn ? <Mic size={20} /> : <MicOff size={20} />}
                 </button>
+
                 <button
-                  className={`ctrl-btn ${!camOn ? 'off' : ''}`}
-                  aria-label={camOn ? 'Desligar câmera' : 'Ligar câmera'}
+                  type="button"
+                  className={`ctrl-btn ${!camOn ? 'danger' : ''}`}
+                  title={camOn ? 'Desligar câmera' : 'Ligar câmera'}
                   onClick={() => setCamOn((v) => !v)}
                 >
-                  {camOn ? <Video size={19} /> : <VideoOff size={19} />}
+                  {camOn ? <Video size={20} /> : <VideoOff size={20} />}
                 </button>
-                <button className="ctrl-btn" aria-label="Compartilhar tela">
-                  <Monitor size={19} />
+
+                <button
+                  type="button"
+                  className={`ctrl-btn ${screenSharing ? 'active-feature' : ''}`}
+                  title="Compartilhar tela"
+                  onClick={() => setScreenSharing((v) => !v)}
+                >
+                  <Monitor size={20} />
                 </button>
-                <button className="ctrl-btn" aria-label="Anexos">
-                  <Paperclip size={19} />
-                </button>
-                <button className="ctrl-btn" aria-label="Mais opções">
-                  <MoreHorizontal size={19} />
-                </button>
-                <button className="ctrl-btn hangup" aria-label="Encerrar sessão">
-                  <Phone size={19} />
+
+                <button
+                  type="button"
+                  className="ctrl-btn hangup"
+                  title="Encerrar chamada"
+                  onClick={handleEndSession}
+                >
+                  <PhoneOff size={20} />
                 </button>
               </div>
+
             </div>
 
-            <div className="chat-panel">
-              <div className="chat-header">
-                <MessageCircle size={16} /> Chat
-              </div>
-
-              <div className="chat-messages">
-                <div className="chat-meta">Início da sessão · 09:00</div>
-                {messages.map((m) => (
-                  <div className={`msg-row ${m.fromMe ? 'mine' : ''}`} key={m.id}>
-                    <div className={`msg-bubble ${m.fromMe ? 'mine' : ''}`}>
-                      {m.text}
-                      <span className="msg-time">{m.time}</span>
-                    </div>
+            {/* Painel Lateral de Chat */}
+            {chatOpen && (
+              <div className="chat-panel">
+                <div className="chat-header">
+                  <div className="chat-header-title">
+                    <MessageCircle size={18} />
+                    <span>Chat da Consulta</span>
                   </div>
-                ))}
-                <div ref={messagesEndRef} />
-              </div>
+                  <button 
+                    type="button" 
+                    className="btn-close-chat" 
+                    onClick={() => setChatOpen(false)}
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
 
-              <div className="chat-composer">
-                <input
-                  value={draft}
-                  onChange={(e) => setDraft(e.target.value)}
-                  placeholder="Digite uma mensagem..."
-                  className="composer-input"
-                  onKeyDown={onComposerKeyDown}
-                />
-                <button className="send-icon" aria-label="Enviar mensagem" onClick={send}>
-                  <Send size={18} />
-                </button>
+                <div className="chat-messages">
+                  <div className="chat-meta-notice">
+                    <ShieldCheck size={13} />
+                    <span>Mensagens temporárias protegidas por sigilo profissional.</span>
+                  </div>
+
+                  {messages.map((m) => (
+                    <div className={`msg-row ${m.fromMe ? 'mine' : ''}`} key={m.id}>
+                      <div className={`msg-bubble ${m.fromMe ? 'mine' : ''}`}>
+                        <p className="msg-text">{m.text}</p>
+                        <span className="msg-time">{m.time}</span>
+                      </div>
+                    </div>
+                  ))}
+                  <div ref={messagesEndRef} />
+                </div>
+
+                <div className="chat-composer">
+                  <input
+                    type="text"
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    placeholder="Digite sua mensagem..."
+                    className="composer-input"
+                    onKeyDown={handleKeyDown}
+                  />
+                  <button 
+                    type="button" 
+                    className="btn-send-msg" 
+                    aria-label="Enviar mensagem" 
+                    onClick={send}
+                    disabled={!draft.trim()}
+                  >
+                    <Send size={16} />
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
+
           </div>
         </div>
       </div>

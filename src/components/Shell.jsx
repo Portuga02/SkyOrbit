@@ -1,125 +1,129 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  Moon,
-  LayoutGrid,
-  Users,
+  LayoutDashboard,
   Calendar,
+  Users,
   FileText,
-  Video,
-  Banknote,
-  Folder,
+  DollarSign,
   BarChart3,
+  Video,
   Settings as SettingsIcon,
   Menu,
   X,
+  ShieldCheck,
+  Sparkles
 } from 'lucide-react';
 import './Shell.css';
 
 const NAV_ITEMS = [
-  { tab: 'dashboard', to: '/dashboard', icon: LayoutGrid, label: 'Dashboard' },
-  { tab: 'patients', to: '/patients', icon: Users, label: 'Pacientes' },
+  { tab: 'dashboard', to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { tab: 'agenda', to: '/agenda', icon: Calendar, label: 'Agenda' },
-  { tab: 'records', to: null, icon: FileText, label: 'Prontuários' },
-  { tab: 'teleatendimento', to: '/teleatendimento', icon: Video, label: 'Teleatendimento' },
-  { tab: 'financeiro', to: '/financeiro', icon: Banknote, label: 'Financeiro' },
-  { tab: 'documents', to: null, icon: Folder, label: 'Documentos' },
+  { tab: 'patients', to: '/patients', icon: Users, label: 'Pacientes' },
+  { tab: 'records', to: '/records', icon: FileText, label: 'Prontuários' },
+  { tab: 'financeiro', to: '/financeiro', icon: DollarSign, label: 'Financeiro' },
   { tab: 'reports', to: '/reports', icon: BarChart3, label: 'Relatórios' },
+  { tab: 'teleatendimento', to: '/teleatendimento', icon: Video, label: 'Teleatendimento' },
   { tab: 'settings', to: '/settings', icon: SettingsIcon, label: 'Configurações' },
 ];
 
-export default function Shell({
-  activeTab = 'dashboard',
-  professionalName = 'Sávio Gomes',
-  professionalRole = 'Psicólogo(a)',
-  children,
-}) {
-  const [menuOpen, setMenuOpen] = useState(false);
+export default function Shell({ children, activeTab }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navList = (
-    <nav className="sidebar-nav">
-      {NAV_ITEMS.map(({ tab, to, icon: Icon, label }) =>
-        to ? (
-          <NavLink
-            key={tab}
-            to={to}
-            className={`nav-item ${activeTab === tab ? 'active' : ''}`}
-            onClick={() => setMenuOpen(false)}
-          >
-            <Icon size={17} />
-            <span>{label}</span>
-          </NavLink>
-        ) : (
-          <a key={tab} className={`nav-item ${activeTab === tab ? 'active' : ''}`}>
-            <Icon size={17} />
-            <span>{label}</span>
-          </a>
-        )
-      )}
-    </nav>
+  const closeMenu = () => setMobileOpen(false);
+
+  const NavContent = () => (
+    <>
+      <div className="sidebar-header">
+        <div className="logo-icon">
+          <Sparkles size={18} />
+        </div>
+        <div className="logo-text">
+          <span className="logo-title">SkyOrbit</span>
+          <span className="logo-sub">Psicologia &amp; Saúde</span>
+        </div>
+      </div>
+
+      <div className="profile-row">
+        <div className="profile-avatar">S</div>
+        <div className="profile-text">
+          <span className="profile-name">Sávio Gomes</span>
+          <span className="profile-role">CRP 02/12345</span>
+        </div>
+        <div className="online-dot" title="Online" />
+      </div>
+
+      <nav className="sidebar-nav">
+        {NAV_ITEMS.map((item) => {
+          const Icon = item.icon;
+          return (
+            <NavLink
+              key={item.tab}
+              to={item.to}
+              onClick={closeMenu}
+              className={({ isActive }) =>
+                `nav-item ${isActive || activeTab === item.tab ? 'active' : ''}`
+              }
+            >
+              <Icon size={18} />
+              <span>{item.label}</span>
+            </NavLink>
+          );
+        })}
+      </nav>
+
+      <div className="sidebar-footer">
+        <ShieldCheck size={16} />
+        <span>Conformidade CFP &amp; LGPD Criptografada</span>
+      </div>
+    </>
   );
 
   return (
     <div className="orbit-shell">
-      <aside className="sidebar">
-        <div className="sidebar-header">
-          <Moon className="logo-icon" size={15} />
-          <div className="logo-text">
-            <span className="logo-title">SkyOrbit</span>
-            <span className="logo-sub">Gestão &amp; Psicologia</span>
-          </div>
+      {/* Topbar visível apenas em Mobile */}
+      <header className="mobile-topbar">
+        <button
+          type="button"
+          className="menu-toggle-btn"
+          onClick={() => setMobileOpen(true)}
+          aria-label="Abrir Menu"
+        >
+          <Menu size={22} />
+        </button>
+        <div className="mobile-brand">
+          <Sparkles size={16} className="brand-icon" />
+          <span>SkyOrbit</span>
         </div>
+        <div className="mobile-avatar">S</div>
+      </header>
 
-        <div className="profile-row">
-          <div className="profile-avatar">{professionalName.charAt(0)}</div>
-          <div className="profile-text">
-            <span className="profile-name">{professionalName}</span>
-            <span className="profile-role">{professionalRole}</span>
-          </div>
-          <span className="online-dot"></span>
-        </div>
-
-        {navList}
-
-        <div className="sidebar-footer">
-          <Moon size={16} />
-          <span>
-            Conecte-se. Cuide.
-            <br />
-            Transforme vidas.
-          </span>
-        </div>
+      {/* Sidebar Desktop Fixa */}
+      <aside className="sidebar desktop-only">
+        <NavContent />
       </aside>
 
-      <div className="mobile-topbar">
-        <Moon size={20} />
-        <span>SkyOrbit</span>
-        <button className="icon-btn" aria-label="Menu" onClick={() => setMenuOpen(true)}>
-          <Menu size={20} />
-        </button>
-      </div>
-
-      {menuOpen && (
-        <div className="mobile-drawer-overlay" onClick={() => setMenuOpen(false)}>
-          <div className="mobile-drawer" onClick={(e) => e.stopPropagation()}>
-            <div className="drawer-header">
-              <div className="sidebar-header" style={{ padding: 0 }}>
-                <Moon className="logo-icon" size={15} />
-                <div className="logo-text">
-                  <span className="logo-title">SkyOrbit</span>
-                  <span className="logo-sub">Gestão &amp; Psicologia</span>
-                </div>
-              </div>
-              <button className="icon-btn" aria-label="Fechar menu" onClick={() => setMenuOpen(false)}>
+      {/* Drawer Mobile (Overlay) */}
+      {mobileOpen && (
+        <div className="mobile-drawer-overlay" onClick={closeMenu}>
+          <aside className="mobile-drawer" onClick={(e) => e.stopPropagation()}>
+            <div className="drawer-close-row">
+              <button
+                type="button"
+                className="btn-close-drawer"
+                onClick={closeMenu}
+                aria-label="Fechar Menu"
+              >
                 <X size={20} />
               </button>
             </div>
-            {navList}
-          </div>
+            <NavContent />
+          </aside>
         </div>
       )}
 
-      <div className="shell-content">{children}</div>
+      {/* Área Principal de Conteúdo */}
+      <main className="shell-content">{children}</main>
     </div>
   );
 }

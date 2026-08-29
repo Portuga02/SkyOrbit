@@ -1,83 +1,341 @@
-.settings-wrap {
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 20px 24px 60px;
+.settings-page {
+  width: 100%;
+  min-height: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  justify-content: center;
+}
+
+.settings-wrap {
+  width: 100%;
+  max-width: 1100px;
+  padding: 32px 28px 60px;
 }
 
 .settings-wrap .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
+
 .settings-wrap .page-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--orb-text);
+  margin: 0 0 4px;
+  letter-spacing: -0.4px;
+}
+
+.settings-wrap .page-header p {
+  font-size: 13.5px;
+  color: var(--orb-text-dim);
+  margin: 0;
+}
+
+.btn-toggle-edit {
+  height: 40px;
+  padding: 0 18px;
+  font-size: 13px;
+  gap: 6px;
+}
+
+.btn-toggle-edit.cancel {
+  border-color: #dcdfe8;
+  color: var(--orb-text-dim);
+  background: var(--orb-card-bg);
+}
+
+.alert-toast {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: var(--orb-green);
+  padding: 12px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: orb-fade 0.2s ease;
+}
+
+@keyframes orb-fade {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Card Hero do Perfil */
+.profile-hero-panel {
+  background: var(--orb-card-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+}
+
+.profile-hero-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+}
+
+.profile-large-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--orb-purple), #4834d4);
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(108, 92, 231, 0.25);
+}
+
+.profile-large-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-upload-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--orb-purple);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease;
+}
+
+.avatar-upload-badge:hover {
+  transform: scale(1.1);
+}
+
+.hero-details {
+  flex: 1;
+  min-width: 260px;
+}
+
+.hero-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.hero-name-row h2 {
   font-size: 22px;
+  font-weight: 700;
+  color: var(--orb-text);
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+
+.crp-pill {
+  font-size: 11.5px;
+  font-weight: 700;
+  background: rgba(108, 92, 231, 0.1);
+  color: var(--orb-purple);
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+.hero-role {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--orb-text-dim);
+  margin: 0 0 6px;
+}
+
+.hero-bio {
+  font-size: 13px;
+  color: var(--orb-text);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 720px;
+}
+
+/* Painéis de Formulários */
+.form-panel {
+  background: var(--orb-card-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 18px;
+  padding: 26px 28px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-title-with-icon h2 {
+  font-size: 16px;
   font-weight: 700;
   color: var(--orb-text);
   margin: 0;
 }
 
-.field-row {
-  padding: 10px 0;
-  border-bottom: 1px solid var(--orb-border);
-}
-.field-row:last-of-type {
-  border-bottom: none;
+.panel-icon {
+  color: var(--orb-purple);
 }
 
-.field-row label {
-  font-size: 11.5px;
-  color: var(--orb-text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+/* Grid de Campos */
+.field-grid.two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
-.field-row p {
-  margin: 4px 0 0;
-  font-size: 14px;
-  color: var(--orb-text);
-}
-.field-row p.readonly {
-  color: var(--orb-text-dim);
+@media (max-width: 680px) {
+  .field-grid.two-cols {
+    grid-template-columns: 1fr;
+  }
 }
 
-.edit-input {
-  color: var(--orb-text);
-  border: 1px solid var(--orb-border);
-  border-radius: 6px;
-  padding: 8px 10px;
-  margin-top: 4px;
-  width: 100%;
-  font-size: 14px;
-  background: var(--orb-bg);
+.full-width {
+  grid-column: 1 / -1;
 }
 
-.btn-save {
-  height: 46px;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
   font-weight: 600;
-  margin-top: 12px;
+  color: var(--orb-text);
+}
+
+.form-control {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--orb-border);
+  background: #fafbfe;
+  padding: 0 14px;
+  font-size: 13.5px;
+  color: var(--orb-text);
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.form-control:focus {
+  border-color: var(--orb-purple);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
+}
+
+textarea.form-control {
+  height: auto;
+  padding: 12px 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* Modo Apenas Leitura */
+.readonly-val {
+  min-height: 44px;
+  background: #fafbfe;
+  border: 1px solid #f0f1f8;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--orb-text);
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.readonly-val.email-val {
+  gap: 8px;
+  color: var(--orb-text-dim);
+}
+
+.readonly-val.textarea-val {
+  min-height: 60px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+
+/* Linhas de Switches (Toggles) */
+.toggles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .toggle-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--orb-border);
+  padding: 14px 16px;
+  background: #fafbfe;
+  border: 1px solid #f0f1f8;
+  border-radius: 14px;
+  gap: 16px;
+}
+
+.toggle-label-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toggle-title {
   font-size: 13.5px;
+  font-weight: 600;
   color: var(--orb-text);
 }
-.toggle-row:last-child {
-  border-bottom: none;
+
+.toggle-sub {
+  font-size: 12px;
+  color: var(--orb-text-dim);
 }
 
 .orbit-toggle {
   position: relative;
   display: inline-block;
-  width: 42px;
+  width: 44px;
   height: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
 .orbit-toggle input {
@@ -88,28 +346,57 @@
 
 .orbit-toggle .track {
   position: absolute;
-  inset: 0;
-  background: var(--orb-border);
-  border-radius: 100px;
-  transition: background 0.15s ease;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #d1d5e4;
+  border-radius: 34px;
+  transition: 0.2s;
 }
 
 .orbit-toggle .thumb {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 18px;
   height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
   border-radius: 50%;
-  background: #fff;
-  transition: transform 0.15s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .orbit-toggle input:checked + .track {
-  background: var(--orb-purple);
+  background-color: var(--orb-purple);
 }
 
 .orbit-toggle input:checked + .track .thumb {
-  transform: translateX(18px);
+  transform: translateX(20px);
+}
+
+/* Botões Finais */
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.btn-cancel {
+  height: 44px;
+  padding: 0 22px;
+  font-size: 13.5px;
+  border-color: #dcdfe8;
+  color: var(--orb-text-dim);
+  background: var(--orb-card-bg);
+}
+
+.btn-cancel:hover {
+  color: var(--orb-text);
+  border-color: #b0b4c8;
+}
+
+.btn-save {
+  height: 44px;
+  padding: 0 26px;
+  font-size: 13.5px;
+  box-shadow: 0 4px 14px rgba(108, 92, 231, 0.25);
 }
