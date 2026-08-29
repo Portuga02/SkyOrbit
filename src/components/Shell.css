@@ -294,6 +294,47 @@
     justify-content: center;
     cursor: pointer;
   }
+  /* Botão de Sair da Sidebar */
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: #ff7675;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+  margin-top: auto;
+  box-sizing: border-box;
+}
+
+.btn-logout:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ff5252;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Botão de Logout no Topbar Mobile */
+.mobile-logout-btn {
+  background: none;
+  border: none;
+  color: #ff7675;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.mobile-logout-btn:active {
+  background: rgba(239, 68, 68, 0.15);
+}
 
   @keyframes drawer-slide {
     from {

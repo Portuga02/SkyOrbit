@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Calendar,
@@ -12,7 +12,8 @@ import {
   Menu,
   X,
   ShieldCheck,
-  Sparkles
+  Sparkles,
+  LogOut
 } from 'lucide-react';
 import './Shell.css';
 
@@ -29,8 +30,21 @@ const NAV_ITEMS = [
 
 export default function Shell({ children, activeTab }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   const closeMenu = () => setMobileOpen(false);
+
+  function handleLogout() {
+    if (window.confirm('Tem certeza que deseja encerrar sua sessão?')) {
+      // Limpeza de tokens de autenticação
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      sessionStorage.clear();
+      
+      closeMenu();
+      navigate('/login');
+    }
+  }
 
   const NavContent = () => (
     <>
@@ -72,6 +86,12 @@ export default function Shell({ children, activeTab }) {
         })}
       </nav>
 
+      {/* Botão de Logout */}
+      <button type="button" className="btn-logout" onClick={handleLogout}>
+        <LogOut size={18} />
+        <span>Sair da conta</span>
+      </button>
+
       <div className="sidebar-footer">
         <ShieldCheck size={16} />
         <span>Conformidade CFP &amp; LGPD Criptografada</span>
@@ -81,7 +101,7 @@ export default function Shell({ children, activeTab }) {
 
   return (
     <div className="orbit-shell">
-      {/* Topbar visível apenas em Mobile */}
+      {/* Topbar Mobile */}
       <header className="mobile-topbar">
         <button
           type="button"
@@ -95,7 +115,9 @@ export default function Shell({ children, activeTab }) {
           <Sparkles size={16} className="brand-icon" />
           <span>SkyOrbit</span>
         </div>
-        <div className="mobile-avatar">S</div>
+        <button type="button" className="mobile-logout-btn" onClick={handleLogout} title="Sair">
+          <LogOut size={18} />
+        </button>
       </header>
 
       {/* Sidebar Desktop Fixa */}
@@ -103,7 +125,7 @@ export default function Shell({ children, activeTab }) {
         <NavContent />
       </aside>
 
-      {/* Drawer Mobile (Overlay) */}
+      {/* Drawer Mobile */}
       {mobileOpen && (
         <div className="mobile-drawer-overlay" onClick={closeMenu}>
           <aside className="mobile-drawer" onClick={(e) => e.stopPropagation()}>
