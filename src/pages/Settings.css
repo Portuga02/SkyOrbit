@@ -1,0 +1,115 @@
+.settings-wrap {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-wrap .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.settings-wrap .page-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--orb-text);
+  margin: 0;
+}
+
+.field-row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--orb-border);
+}
+.field-row:last-of-type {
+  border-bottom: none;
+}
+
+.field-row label {
+  font-size: 11.5px;
+  color: var(--orb-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.field-row p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--orb-text);
+}
+.field-row p.readonly {
+  color: var(--orb-text-dim);
+}
+
+.edit-input {
+  color: var(--orb-text);
+  border: 1px solid var(--orb-border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-top: 4px;
+  width: 100%;
+  font-size: 14px;
+  background: var(--orb-bg);
+}
+
+.btn-save {
+  height: 46px;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--orb-border);
+  font-size: 13.5px;
+  color: var(--orb-text);
+}
+.toggle-row:last-child {
+  border-bottom: none;
+}
+
+.orbit-toggle {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+}
+
+.orbit-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.orbit-toggle .track {
+  position: absolute;
+  inset: 0;
+  background: var(--orb-border);
+  border-radius: 100px;
+  transition: background 0.15s ease;
+}
+
+.orbit-toggle .thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.orbit-toggle input:checked + .track {
+  background: var(--orb-purple);
+}
+
+.orbit-toggle input:checked + .track .thumb {
+  transform: translateX(18px);
+}

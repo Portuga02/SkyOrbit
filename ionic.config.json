@@ -1,7 +1,0 @@
-{
-  "name": "SkyOrbit",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}

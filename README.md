@@ -1,41 +1,67 @@
-# SkyOrbit — Projeto completo e validado
+# SkyOrbit — React (Web + PWA)
 
-Esse não é mais um "conjunto de páginas pra colar" — é o **projeto Ionic + Angular inteiro**, com toda a estrutura de configuração (`angular.json`, `capacitor.config.ts`, `tsconfig*.json`, etc.), gerado manualmente porque o `ionic start` não conseguiu baixar o template pela rede daqui, mas com exatamente a mesma estrutura que ele geraria.
+Conversão do projeto original (Ionic + Angular) para **React.js puro (web)**, com **React Router** para navegação e configurado como **PWA** (instalável em celular, com ícone, splash e funcionamento offline básico via service worker).
 
-## Validado de verdade
+## Stack
 
-Antes de te entregar, eu rodei aqui:
-```bash
-npm install
-ng build --configuration=production
-```
-**O build passou sem nenhum erro** — as 8 páginas, o shell (sidebar) e os componentes compilam certinho. Os únicos avisos que apareceram são warnings inofensivos de CSS que vêm de dentro do próprio Ionic (sobre seletores `:dir(rtl)`), não do nosso código.
+- **React 19 + Vite**
+- **react-router-dom** — rotas
+- **lucide-react** — ícones (substituindo os `ion-icon` do projeto original)
+- **vite-plugin-pwa** — manifest.json + service worker
 
 ## Como rodar
 
 ```bash
-cd SkyOrbit
 npm install
-ionic serve
+npm run dev
 ```
 
-Isso já deve abrir direto na tela de **Login**, com o resto das páginas navegáveis pela sidebar.
+Abre em `http://localhost:5173`.
 
-## O que tem dentro
+## Build de produção
 
-Mesma estrutura e conteúdo que já te expliquei na entrega anterior: Login, Dashboard, Pacientes, Prontuário (abas), Agenda, Financeiro, Teleatendimento, Configurações — mais o `app-orbit-shell` (sidebar) e os arquivos de configuração raiz do projeto.
+```bash
+npm run build
+npm run preview
+```
 
-## Diferença pro zip anterior
+O `npm run build` gera a pasta `dist/` já com o service worker e o manifest do PWA prontos. É essa pasta que você sobe pra qualquer hospedagem estática (Vercel, Netlify, GitHub Pages etc).
 
-- Antes: só `src/app` e `src/theme` — você precisava ter criado o projeto Ionic manualmente primeiro
-- Agora: **projeto inteiro**, incluindo `package.json`, `angular.json`, `main.ts`, `index.html`, `app.component.*` — é só extrair, `npm install`, `ionic serve`
+## Estrutura
 
-## O que não veio no zip (de propósito)
+```
+src/
+  components/
+    Shell.jsx      -> sidebar (desktop) + topbar/drawer (mobile), usado em quase todas as páginas
+  pages/
+    Login.jsx
+    Dashboard.jsx
+    Patients.jsx          -> lista de pacientes
+    PatientDetail.jsx     -> detalhe do paciente (abas: resumo/prontuário/sessões/financeiro)
+    PatientRegister.jsx   -> cadastro (com campos condicionais: medicação, dependentes)
+    Agenda.jsx             -> grade semanal
+    NewAppointment.jsx
+    Financeiro.jsx
+    Teleatendimento.jsx   -> chamada de vídeo mockada + chat
+    Reports.jsx            -> geração de PDF mockada
+    Settings.jsx
+  App.jsx           -> rotas
+  main.jsx          -> entrada, BrowserRouter
+  index.css         -> variáveis de tema (cores, etc)
+```
 
-- `node_modules/` — muito grande pra enviar, e você vai gerar do zero com `npm install`
-- `www/` (pasta de build) — é gerada, não faz sentido versionar
-- `.angular/` (cache) — idem
+## O que é mock (ainda sem backend)
 
-## Continua tudo mockado
+Igual ao projeto original, os dados são fixos no código (arrays e objetos no topo de cada página), marcados com comentários `// TODO:`. Pontos que vão precisar de integração real:
 
-Os mesmos `// TODO` de antes continuam lá — login, dashboard, prontuário, agenda, financeiro e teleatendimento ainda usam dados fixos no código. A integração com o backend Java continua sendo o próximo passo natural.
+- Login (`Login.jsx`) — hoje só simula delay e navega
+- Listas de pacientes, agenda, financeiro — dados mockados
+- Teleatendimento — não conecta em WebRTC de verdade
+- Relatórios — não gera PDF de verdade
+
+## PWA
+
+Configurado em `vite.config.js` via `vite-plugin-pwa`. Os ícones estão em `public/icons/`. Para testar a instalação:
+
+1. `npm run build && npm run preview`
+2. Abra no Chrome (desktop ou Android) e use "Instalar app" / "Adicionar à tela inicial"

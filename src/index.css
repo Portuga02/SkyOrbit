@@ -1,0 +1,125 @@
+:root {
+  --orb-sidebar-bg: #14162e;
+  --orb-sidebar-elevated: #1b1e3d;
+  --orb-sidebar-border: #2a2d55;
+  --orb-purple: #6c5ce7;
+  --orb-purple-dark: #5645c9;
+  --orb-moon: #f2c879;
+
+  --orb-bg: #f4f5fa;
+  --orb-card-bg: #ffffff;
+  --orb-border: #e6e7f0;
+  --orb-text: #1e2140;
+  --orb-text-dim: #7a7e9e;
+
+  --orb-green: #22c55e;
+  --orb-amber: #f5a524;
+  --orb-red: #ef4444;
+  --orb-blue: #38bdf8;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--orb-bg);
+  color: var(--orb-text);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+/* generic button primitives reused across pages, mirroring the old ion-button */
+.ion-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  border-radius: 12px;
+  padding: 0 18px;
+  height: 42px;
+  font-size: 13.5px;
+  font-weight: 600;
+  background: var(--orb-purple);
+  color: #fff;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.ion-btn:hover {
+  background: var(--orb-purple-dark);
+}
+
+.ion-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.ion-btn.outline {
+  background: transparent;
+  border: 1px solid var(--orb-border);
+  color: var(--orb-text);
+}
+
+.ion-btn.outline.purple {
+  border-color: var(--orb-purple);
+  color: var(--orb-purple);
+}
+
+.ion-btn.block {
+  width: 100%;
+}
+
+.ion-btn.round {
+  border-radius: 100px;
+}
+
+.ion-btn.small {
+  height: 34px;
+  padding: 0 14px;
+  font-size: 12px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  animation: orb-spin 0.7s linear infinite;
+}
+
+@keyframes orb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+::selection {
+  background: rgba(108, 92, 231, 0.25);
+}

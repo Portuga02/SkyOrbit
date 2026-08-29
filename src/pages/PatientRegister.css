@@ -1,0 +1,126 @@
+.register-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.register-wrap .page-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--orb-text);
+  margin: 0 0 4px;
+}
+.register-wrap .page-header p {
+  font-size: 13.5px;
+  color: var(--orb-text-dim);
+  margin: 0;
+}
+
+.photo-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.photo-upload {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: var(--orb-bg);
+  border: 2px dashed var(--orb-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  color: var(--orb-text-dim);
+}
+
+.photo-upload img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-upload.small {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.photo-hint {
+  font-size: 11.5px;
+  color: var(--orb-text-dim);
+}
+
+.conditional-box {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--orb-border);
+}
+
+.conditional-box label {
+  font-size: 11.5px;
+  color: var(--orb-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.conditional-box > textarea {
+  width: 100%;
+  background: var(--orb-bg);
+  color: var(--orb-text);
+  border: 1px solid var(--orb-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.dependent-card {
+  background: var(--orb-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.dependent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--orb-text-dim);
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--orb-red);
+  display: flex;
+  align-items: center;
+}
+
+.dependent-body {
+  display: flex;
+  gap: 14px;
+}
+
+.dependent-grid {
+  flex: 1;
+  grid-template-columns: 1fr 1fr;
+}
+
+.btn-add-dependent {
+  border-color: var(--orb-purple);
+}
