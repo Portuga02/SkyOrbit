@@ -8,6 +8,7 @@
   position: relative;
   overflow: hidden;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Glow decorativo de fundo */
@@ -21,7 +22,8 @@
   border-radius: 50%;
   pointer-events: none;
 }
-/* Card mais compacto e equilibrado */
+
+/* Card central */
 .login-card {
   width: 100%;
   max-width: 380px;
@@ -70,10 +72,10 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-/* Força ícone e input lado a lado com altura fixa */
+/* Container de cada campo (ícone + input + botão olho) */
 .login-form .field {
   display: flex !important;
   flex-direction: row !important;
@@ -82,17 +84,20 @@
   border: 1px solid #2a2d55;
   border-radius: 12px;
   padding: 0 14px;
-  height: 46px; /* Altura enxuta e travada */
+  height: 48px;
   box-sizing: border-box;
+  transition: all 0.2s ease;
+  overflow: hidden;
 }
 
 .login-form .field:focus-within {
   border-color: #6c5ce7;
   background: rgba(15, 17, 40, 0.9);
-  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.25);
 }
 
-.login-form .field svg.field-icon {
+.login-form .field svg.field-icon,
+.login-form .field>svg {
   color: #7d82ab;
   margin-right: 10px;
   flex-shrink: 0;
@@ -100,19 +105,32 @@
 
 .login-form .field input {
   flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #fff;
-  font-size: 13.5px;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: #ffffff !important;
+  font-size: 14px;
   height: 100%;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .login-form .field input::placeholder {
   color: #62678f;
 }
 
+/* Elimina o background branco/azul do Autofill do Navegador */
+.login-form .field input:-webkit-autofill,
+.login-form .field input:-webkit-autofill:hover,
+.login-form .field input:-webkit-autofill:focus,
+.login-form .field input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0px 1000px #141733 inset !important;
+  box-shadow: 0 0 0px 1000px #141733 inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Botão de alternar visualização da senha */
 .toggle-password {
   background: none;
   border: none;
@@ -120,29 +138,43 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  padding: 4px;
   margin-left: 8px;
   cursor: pointer;
   flex-shrink: 0;
+  transition: color 0.15s ease;
 }
 
 .toggle-password:hover {
-  color: #fff;
+  color: #ffffff;
 }
 
+/* Botão Entrar */
 .btn-primary {
   background: #6c5ce7;
-  box-shadow: 0 6px 18px rgba(108, 92, 231, 0.35);
-  height: 44px;
-  font-weight: 600;
-  margin-top: 6px;
-  font-size: 14px;
+  color: #ffffff;
+  border: none;
   border-radius: 12px;
+  height: 46px;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 6px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(108, 92, 231, 0.35);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary:hover {
+  background: #5b4bc4;
+  transform: translateY(-1px);
 }
 
 .hint {
   text-align: center;
   font-size: 11px;
   color: #7d82ab;
-  margin: 8px 0 0;
+  margin: 10px 0 0;
 }
