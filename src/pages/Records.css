@@ -1,0 +1,156 @@
+.records-page {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.records-wrap {
+  width: 100%;
+  max-width: 1200px;
+  padding: 32px 28px 60px;
+}
+
+.records-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--orb-card-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 12px;
+  padding: 0 14px;
+  height: 44px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.search-field input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13.5px;
+  color: var(--orb-text);
+  width: 100%;
+}
+
+.search-field svg {
+  color: var(--orb-text-dim);
+}
+
+.privacy-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--orb-green);
+  background: rgba(34, 197, 94, 0.1);
+  padding: 6px 12px;
+  border-radius: 100px;
+}
+
+.records-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 18px;
+}
+
+.record-card {
+  background: var(--orb-card-bg);
+  border: 1px solid var(--orb-border);
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.record-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--orb-purple);
+  box-shadow: 0 6px 16px rgba(108, 92, 231, 0.08);
+}
+
+.record-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.record-patient-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.record-patient-info h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--orb-text);
+  margin: 0 0 2px;
+}
+
+.record-meta {
+  font-size: 11.5px;
+  color: var(--orb-text-dim);
+}
+
+.record-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--orb-purple);
+  background: rgba(108, 92, 231, 0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.record-preview {
+  background: #fafbfe;
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid #f0f1f8;
+}
+
+.preview-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--orb-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.record-preview p {
+  font-size: 12.5px;
+  color: var(--orb-text);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.record-footer {
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.open-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--orb-purple);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

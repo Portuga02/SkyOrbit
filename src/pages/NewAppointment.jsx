@@ -1,15 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Circle, Dot } from 'lucide-react';
+import { Globe, UserCheck, Calendar, Clock, Timer, ArrowLeft } from 'lucide-react';
 import Shell from '../components/Shell.jsx';
-import './shared.css';
 import './NewAppointment.css';
 
-function RadioIcon({ selected }) {
-  return selected ? <Dot size={20} strokeWidth={5} /> : <Circle size={16} />;
-}
-
-// TODO: substituir por lista real de pacientes vinda da API
 const PATIENTS = ['Amanda Silva', 'Carlos Eduardo', 'Beatriz Lima', 'Lucas Pereira', 'Juliana Martins'];
 
 export default function NewAppointment() {
@@ -21,13 +15,9 @@ export default function NewAppointment() {
   const [type, setType] = useState('Online');
   const [notes, setNotes] = useState('');
 
-  // TODO: enviar pro backend real (POST /appointments)
-  function save() {
+  function save(e) {
+    e.preventDefault();
     if (!selectedPatient || !date || !time) return;
-    navigate('/agenda');
-  }
-
-  function cancel() {
     navigate('/agenda');
   }
 
@@ -35,75 +25,126 @@ export default function NewAppointment() {
     <Shell activeTab="agenda">
       <div className="new-appt-page">
         <div className="new-appt-wrap">
+          <button type="button" className="btn-back" onClick={() => navigate('/agenda')}>
+            <ArrowLeft size={16} />
+            <span>Voltar para Agenda</span>
+          </button>
+
           <div className="page-header">
-            <h1>Nova consulta</h1>
-            <p>Agende um horário para um paciente</p>
+            <h1>Nova Consulta</h1>
+            <p>Preencha os detalhes para reservar o horário do paciente.</p>
           </div>
 
-          <div className="panel">
-            <div className="field">
-              <label>Paciente *</label>
-              <select value={selectedPatient} onChange={(e) => setSelectedPatient(e.target.value)}>
-                <option value="" disabled>
-                  Selecione o paciente
-                </option>
-                {PATIENTS.map((p) => (
-                  <option key={p} value={p}>
-                    {p}
+          <form className="panel form-panel" onSubmit={save}>
+            <div className="form-group">
+              <label htmlFor="patient-select">Paciente *</label>
+              <div className="select-wrapper">
+                <select
+                  id="patient-select"
+                  className="form-control"
+                  value={selectedPatient}
+                  onChange={(e) => setSelectedPatient(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>
+                    Selecione o paciente cadastrado
                   </option>
-                ))}
-              </select>
+                  {PATIENTS.map((p) => (
+                    <option key={p} value={p}>
+                      {p}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className="field-grid">
-              <div className="field">
+              <div className="form-group">
                 <label>Data *</label>
-                <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                <div className="input-icon-wrap">
+                  <Calendar size={16} className="input-icon" />
+                  <input
+                    type="date"
+                    className="form-control with-icon"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
-              <div className="field">
+
+              <div className="form-group">
                 <label>Horário *</label>
-                <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+                <div className="input-icon-wrap">
+                  <Clock size={16} className="input-icon" />
+                  <input
+                    type="time"
+                    className="form-control with-icon"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
-              <div className="field">
+
+              <div className="form-group">
                 <label>Duração (min)</label>
-                <input type="number" value={duration} onChange={(e) => setDuration(e.target.value)} />
+                <div className="input-icon-wrap">
+                  <Timer size={16} className="input-icon" />
+                  <input
+                    type="number"
+                    min="15"
+                    step="5"
+                    className="form-control with-icon"
+                    value={duration}
+                    onChange={(e) => setDuration(Number(e.target.value))}
+                  />
+                </div>
               </div>
             </div>
 
-            <div className="field">
-              <label>Tipo de consulta</label>
+            <div className="form-group">
+              <label>Modalidade de Atendimento</label>
               <div className="radio-row">
-                <button className={`radio-chip ${type === 'Online' ? 'selected' : ''}`} onClick={() => setType('Online')}>
-                  <RadioIcon selected={type === 'Online'} /> Online
+                <button
+                  type="button"
+                  className={`radio-chip ${type === 'Online' ? 'selected' : ''}`}
+                  onClick={() => setType('Online')}
+                >
+                  <Globe size={16} />
+                  <span>Online</span>
                 </button>
                 <button
+                  type="button"
                   className={`radio-chip ${type === 'Presencial' ? 'selected' : ''}`}
                   onClick={() => setType('Presencial')}
                 >
-                  <RadioIcon selected={type === 'Presencial'} /> Presencial
+                  <UserCheck size={16} />
+                  <span>Presencial</span>
                 </button>
               </div>
             </div>
 
-            <div className="field">
-              <label>Observações</label>
+            <div className="form-group">
+              <label>Observações Clínicas (Opcional)</label>
               <textarea
+                className="form-control"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Observações sobre a consulta (opcional)"
+                placeholder="Ex: Foco na devolutiva do teste ou queixa pontual..."
                 rows={3}
               />
             </div>
-          </div>
 
-          <div className="actions-row">
-            <button className="ion-btn outline" onClick={cancel}>
-              Cancelar
-            </button>
-            <button className="ion-btn btn-save" onClick={save}>
-              Agendar consulta
-            </button>
-          </div>
+            <div className="actions-row">
+              <button type="button" className="ion-btn outline round btn-cancel" onClick={() => navigate('/agenda')}>
+                Cancelar
+              </button>
+              <button type="submit" className="ion-btn round btn-save">
+                Confirmar Agendamento
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </Shell>

@@ -10,6 +10,9 @@ import Financeiro from './pages/Financeiro.jsx';
 import Teleatendimento from './pages/Teleatendimento.jsx';
 import Reports from './pages/Reports.jsx';
 import Settings from './pages/Settings.jsx';
+import Records from './pages/Records.jsx';
+
+// Dentro do seu <Routes>:
 
 export default function App() {
   return (
@@ -21,6 +24,7 @@ export default function App() {
       <Route path="/patients/new" element={<PatientRegister />} />
       <Route path="/patients/:id" element={<PatientDetail />} />
       <Route path="/agenda" element={<Agenda />} />
+      <Route path="/records" element={<Records />} />
       <Route path="/agenda/new" element={<NewAppointment />} />
       <Route path="/financeiro" element={<Financeiro />} />
       <Route path="/teleatendimento" element={<Teleatendimento />} />

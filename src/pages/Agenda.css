@@ -1,23 +1,32 @@
+.agenda-page {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .agenda-wrap {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 24px 60px;
+  width: 100%;
+  max-width: 1300px;
+  padding: 32px 28px 60px;
 }
 
 .agenda-wrap .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
-  flex-wrap: wrap;
-  gap: 12px;
+  margin-bottom: 24px;
+  gap: 16px;
 }
+
 .agenda-wrap .page-header h1 {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--orb-text);
   margin: 0 0 4px;
+  letter-spacing: -0.4px;
 }
+
 .agenda-wrap .page-header p {
   font-size: 13.5px;
   color: var(--orb-text-dim);
@@ -25,24 +34,30 @@
 }
 
 .btn-new {
-  height: 42px;
+  box-shadow: 0 4px 14px rgba(108, 92, 231, 0.25);
+  font-size: 13px;
+  padding: 0 20px;
 }
 
 .calendar-card {
   background: var(--orb-card-bg);
   border: 1px solid var(--orb-border);
-  border-radius: 14px;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   overflow-x: auto;
 }
 
 .calendar-header {
   display: flex;
   border-bottom: 1px solid var(--orb-border);
-  min-width: 764px;
+  min-width: 780px;
+  background: #fafbfe;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
 }
 
 .hour-col-header {
-  width: 64px;
+  width: 68px;
   flex-shrink: 0;
 }
 
@@ -50,7 +65,7 @@
   flex: 1;
   min-width: 140px;
   text-align: center;
-  padding: 12px 0;
+  padding: 14px 0;
   font-size: 13px;
   font-weight: 600;
   color: var(--orb-text);
@@ -59,20 +74,23 @@
 
 .calendar-body {
   display: flex;
-  min-width: 764px;
+  min-width: 780px;
+  position: relative;
 }
 
 .hour-col {
-  width: 64px;
+  width: 68px;
   flex-shrink: 0;
 }
 
 .hour-cell {
-  height: 56px;
-  font-size: 11.5px;
+  height: 58px;
+  font-size: 12px;
+  font-weight: 500;
   color: var(--orb-text-dim);
-  padding: 4px 8px 0 0;
+  padding: 6px 12px 0 0;
   text-align: right;
+  box-sizing: border-box;
 }
 
 .day-col {
@@ -83,28 +101,48 @@
 }
 
 .hour-cell-bg {
-  height: 56px;
-  border-bottom: 1px solid var(--orb-border);
+  height: 58px;
+  border-bottom: 1px solid #f1f2f7;
+  box-sizing: border-box;
+}
+
+.day-col .hour-cell-bg:last-child {
+  border-bottom: none;
 }
 
 .event-block {
   position: absolute;
-  left: 4px;
-  right: 4px;
-  border-radius: 6px;
-  padding: 6px 8px;
+  left: 6px;
+  right: 6px;
+  border-radius: 8px;
+  padding: 7px 10px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.event-block:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  z-index: 2;
 }
 
 .event-name {
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--orb-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .event-type {
-  font-size: 10px;
+  font-size: 10.5px;
+  font-weight: 500;
   color: var(--orb-text-dim);
 }
